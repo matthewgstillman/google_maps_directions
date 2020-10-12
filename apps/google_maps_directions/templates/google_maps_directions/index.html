@@ -1,0 +1,456 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Home</title>
+{% load static %}
+<script src="{% static 'index.js' %}"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key={{key_key}}&callback=initMap&libraries=&v=weekly"
+      defer
+    ></script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key={{key_key}}&callback=initAutocomplete&libraries=places&v=weekly"
+      defer
+    ></script>
+{% endblock%}
+
+
+{% block content %}
+<!-- <div id="locationField">
+    <input
+      id="autocomplete"
+      placeholder="Enter your address"
+      onFocus="geolocate()"
+      type="text"
+    />
+  </div> -->
+<div id="map"></div>
+<a href="/enter">Enter New Trip</a>
+<div class="centerContainer">
+    <br>
+    {{session_formatted_ending_address}}
+<h1>Trip To {{ request.session.ending_address }}</h1>
+<br>
+<iframe class="map"
+    width="100%"
+    height="832.5"
+    frameborder="0" style="border:0"
+    src="https://www.google.com/maps/embed/v1/directions?key={{key_key}}&origin={{request.session.formatted_starting_address}}&destination={{request.session.formatted_ending_address}}&avoid=tolls&maptype=satellite" allowfullscreen>
+</iframe>
+<br>
+{% for directions in request.session.directions_result %}
+    <h2>Distance: {{directions.legs.0.distance.text}}</h2>
+    <h2>Duration: {{directions.legs.0.duration.text}}</h2>
+    <br>
+    <h1>Trip Details</h1>
+    <h4>Start Address: {{ directions.legs.0.start_address }}</h4>
+    <h4>End Address: {{ directions.legs.0.end_address }}</h4>
+    {% if directions.legs.0.arrival_time.text %}
+    <h6>Arrival Time: {{ directions.legs.0.arrival_time.text }}</h6>
+    {% endif %}
+    <br>
+    {% if directions.legs.0.steps.0.html_instructions %}
+    <div class="step">
+    <h6>Step 1: {{ directions.legs.0.steps.0.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.0.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.0.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif%}
+    {% if directions.legs.0.steps.1.html_instructions %}
+    <div class="step">
+    <h6>Step 2: {{ directions.legs.0.steps.1.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.1.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.1.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.2.html_instructions %}
+    <div class="step">
+    <h6>Step 3: {{ directions.legs.0.steps.2.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.2.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.2.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.3.html_instructions %}
+    <div class="step">
+    <h6>Step 4: {{ directions.legs.0.steps.3.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.3.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.3.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.4.html_instructions %}
+    <div class="step">
+    <h6>Step 5: {{ directions.legs.0.steps.4.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.4.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.4.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.5.html_instructions %}
+    <div class="step">
+    <h6>Step 6: {{ directions.legs.0.steps.5.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.5.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.5.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.6.html_instructions %}
+    <div class="step">
+    <h6>Step 7: {{ directions.legs.0.steps.6.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.6.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.6.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.7.html_instructions %}
+    <div class="step">
+    <h6>Step 8: {{ directions.legs.0.steps.7.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.7.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.7.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.8.html_instructions %}
+    <div class="step">
+    <h6>Step 9: {{ directions.legs.0.steps.8.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.8.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.8.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.9.html_instructions %}
+    <div class="step">
+    <h6>Step 10: {{ directions.legs.0.steps.9.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.9.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.9.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.10.html_instructions %}
+    <div class="step">
+    <h6>Step 11: {{ directions.legs.0.steps.10.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.10.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.10.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.11.html_instructions %}
+    <div class="step">
+    <h6>Step 12: {{ directions.legs.0.steps.11.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.11.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.11.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.12.html_instructions %}
+    <div class="step">
+    <h6>Step 13: {{ directions.legs.0.steps.12.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.12.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.12.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.13.html_instructions %}
+    <div class="step">
+    <h6>Step 14: {{ directions.legs.0.steps.13.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.13.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.13.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.14.html_instructions %}
+    <div class="step">
+    <h6>Step 15: {{ directions.legs.0.steps.14.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.14.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.14.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.15.html_instructions %}
+    <div class="step">
+    <h6>Step 16: {{ directions.legs.0.steps.15.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.15.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.15.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.16.html_instructions %}
+    <div class="step">
+    <h6>Step 17: {{ directions.legs.0.steps.16.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.16.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.16.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.17.html_instructions %}
+    <div class="step">
+    <h6>Step 18: {{ directions.legs.0.steps.17.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.17.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.17.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.18.html_instructions %}
+    <div class="step">
+    <h6>Step 19: {{ directions.legs.0.steps.18.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.18.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.18.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.19.html_instructions %}
+    <div class="step">
+    <h6>Step 20: {{ directions.legs.0.steps.19.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.19.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.19.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.20.html_instructions %}
+    <div class="step">
+    <h6>Step 21: {{ directions.legs.0.steps.20.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.20.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.20.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.21.html_instructions %}
+    <div class="step">
+    <h6>Step 22: {{ directions.legs.0.steps.21.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.21.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.21.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.22.html_instructions %}
+    <div class="step">
+    <h6>Step 23: {{ directions.legs.0.steps.22.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.22.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.22.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.23.html_instructions %}
+    <div class="step">
+    <h6>Step 24: {{ directions.legs.0.steps.23.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.23.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.23.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.24.html_instructions %}
+    <div class="step">
+    <h6>Step 25: {{ directions.legs.0.steps.24.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.24.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.24.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.25.html_instructions %}
+    <div class="step">
+    <h6>Step 26: {{ directions.legs.0.steps.25.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.25.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.25.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.26.html_instructions %}
+    <div class="step">
+    <h6>Step 27: {{ directions.legs.0.steps.26.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.26.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.26.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.27.html_instructions %}
+    <div class="step">
+    <h6>Step 28: {{ directions.legs.0.steps.27.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.27.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.27.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.28.html_instructions %}
+    <div class="step">
+    <h6>Step 29: {{ directions.legs.0.steps.28.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.28.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.28.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.29.html_instructions %}
+    <div class="step">
+    <h6>Step 30: {{ directions.legs.0.steps.29.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.29.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.29.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.30.html_instructions %}
+    <div class="step">
+    <h6>Step 31: {{ directions.legs.0.steps.30.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.30.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.30.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.31.html_instructions %}
+    <div class="step">
+    <h6>Step 32: {{ directions.legs.0.steps.31.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.31.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.31.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.32.html_instructions %}
+    <div class="step">
+    <h6>Step 33: {{ directions.legs.0.steps.32.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.32.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.32.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.33.html_instructions %}
+    <div class="step">
+    <h6>Step 34: {{ directions.legs.0.steps.33.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.33.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.33.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.34.html_instructions %}
+    <div class="step">
+    <h6>Step 35: {{ directions.legs.0.steps.34.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.34.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.34.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.35.html_instructions %}
+    <div class="step">
+    <h6>Step 36: {{ directions.legs.0.steps.35.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.35.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.35.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.36.html_instructions %}
+    <div class="step">
+    <h6>Step 37: {{ directions.legs.0.steps.36.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.36.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.36.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.37.html_instructions %}
+    <div class="step">
+    <h6>Step 38: {{ directions.legs.0.steps.37.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.37.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.37.duration.text }}</h6>
+    </div> 
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.38.html_instructions %}
+    <div class="step">
+    <h6>Step 39: {{ directions.legs.0.steps.38.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.38.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.38.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.39.html_instructions %}
+    <div class="step">
+    <h6>Step 40: {{ directions.legs.0.steps.39.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.39.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.39.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.40.html_instructions %}
+    <div class="step">
+    <h6>Step 41: {{ directions.legs.0.steps.40.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.40.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.40.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.41.html_instructions %}
+    <div class="step">
+    <h6>Step 42: {{ directions.legs.0.steps.41.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.41.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.41.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.42.html_instructions %}
+    <div class="step">
+    <h6>Step 43: {{ directions.legs.0.steps.42.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.42.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.42.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.43.html_instructions %}
+    <div class="step">
+    <h6>Step 44: {{ directions.legs.0.steps.43.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.43.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.43.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.44.html_instructions %}
+    <div class="step">
+    <h6>Step 45: {{ directions.legs.0.steps.44.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.44.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.44.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.45.html_instructions %}
+    <div class="step">
+    <h6>Step 46: {{ directions.legs.0.steps.45.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.45.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.45.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.46.html_instructions %}
+    <div class="step">
+    <h6>Step 47: {{ directions.legs.0.steps.45.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.45.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.45.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.47.html_instructions %}
+    <div class="step">
+    <h6>Step 48: {{ directions.legs.0.steps.47.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.47.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.47.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.48.html_instructions %}
+    <div class="step">
+    <h6>Step 49: {{ directions.legs.0.steps.48.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.48.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.48.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% if directions.legs.0.steps.49.html_instructions %}
+    <div class="step">
+    <h6>Step 50: {{ directions.legs.0.steps.49.html_instructions|safe|escape }}</h6>
+    <h6>Distance: {{ directions.legs.0.steps.49.distance.text }}</h6>
+    <h6>Duration: {{ directions.legs.0.steps.49.duration.text }}</h6>
+    </div>
+    <hr>
+    {% endif %}
+    {% endfor %}
+</div>
+
+{% endblock %}
