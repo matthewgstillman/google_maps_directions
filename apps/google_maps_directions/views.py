@@ -33,7 +33,7 @@ def enter_trip(request):
     now = datetime.now()
     # timezone = pytz.timezone("America/Los_Angeles")
     # d_aware = timezone.localize(now)
-    gmaps = googlemaps.Client(key="AIzaSyA8ISZ4TkGCSGsurBj0jUPqztlTkfOwAog")
+    gmaps = googlemaps.Client(key=key_key)
     if request.method == "POST":
         # gmaps = googlemaps.Client(key="AIzaSyA8ISZ4TkGCSGsurBj0jUPqztlTkfOwAog")
         starting_address = request.POST['starting_address']
