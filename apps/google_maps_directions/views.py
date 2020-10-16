@@ -98,9 +98,16 @@ def enter_trip(request):
             arrival_minutes = arrival_time_string[14:16]
             print("Arrival Hour: {}".format(arrival_hour))
             print("Arrival Minutes: {}".format(arrival_minutes))
+            # request.session['start_zip_code'] = directions["legs"][0]["start_address"][-11:-5]
+            # request.session['end_zip_code'] = directions["legs"][0]["end_address"][-11:-5]
+            # session_start_zip = request.session['start_zip_code']
+            # session_end_zip = request.session['end_zip_code'] 
         # print("D Aware: {}".format(d_aware))
         # print("Now: {}".format(now))
-        print("API Key: {}".format(key_key))
+        # destination_zip_code = ending_address[-5]
+        # print("The destination Zip Code is: {}".format(destination_zip_code))
+        # directions.legs.0.start_address
+        # print("Starting Zip Code: {}\nEnding Zip Code: {}".format(request.session['start_zip_code'], request.session['end_zip_code']))
         context = {
             'directions_result': directions_result,
             'formatted_starting_address': formatted_starting_address,
@@ -115,6 +122,8 @@ def enter_trip(request):
             'now': now,
             'session_directions_result': session_directions_result,
             'trips': trips,
+            # 'session_start_zip': session_start_zip,
+            # 'session_end_zip': session_end_zip,
         }
     else:
         print("Error!")
