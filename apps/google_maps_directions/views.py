@@ -35,7 +35,7 @@ def enter_trip(request):
     # d_aware = timezone.localize(now)
     gmaps = googlemaps.Client(key=key_key)
     if request.method == "POST":
-        # gmaps = googlemaps.Client(key="AIzaSyA8ISZ4TkGCSGsurBj0jUPqztlTkfOwAog")
+        gmaps = googlemaps.Client(key=key_key)
         starting_address = request.POST['starting_address']
         ending_address = request.POST['ending_address']
         print("Starting Address: {}\nEnding Address: {}".format(starting_address, ending_address))

@@ -54,22 +54,36 @@ function fillInAddress() {
   }
 }
 
-// Bias the autocomplete object to the user's geographical location,
-// as supplied by the browser's 'navigator.geolocation' object.
-function geolocate() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition((position) => {
-      const geolocation = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-      };
-      const circle = new google.maps.Circle({
-        center: geolocation,
-        radius: position.coords.accuracy,
-      });
-      autocomplete.setBounds(circle.getBounds());
-    });
-  }
-}
+// // Bias the autocomplete object to the user's geographical location,
+// // as supplied by the browser's 'navigator.geolocation' object.
+// function geolocate() {
+//   if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition((position) => {
+//       const geolocation = {
+//         lat: position.coords.latitude,
+//         lng: position.coords.longitude,
+//       };
+//       const circle = new google.maps.Circle({
+//         center: geolocation,
+//         radius: position.coords.accuracy,
+//       });
+//       autocomplete.setBounds(circle.getBounds());
+//     });
+//   }
+// }
+
+// var x = document.getElementById("demo");
+// function getLocation() {
+//   if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition(showPosition);
+//   } else {
+//     x.innerHTML = "Geolocation is not supported by this browser.";
+//   }
+// }
+
+// function showPosition(position) {
+//   x.innerHTML = "Latitude: " + position.coords.latitude +
+//   "<br>Longitude: " + position.coords.longitude;
+// }
 
  
